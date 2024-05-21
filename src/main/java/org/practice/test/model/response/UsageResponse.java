@@ -26,11 +26,7 @@ public class UsageResponse {
 	}
 
 	@Getter
-//	@Setter
-//	@SuperBuilder
 	@Builder
-//	@NoArgsConstructor
-//	@AllArgsConstructor
 	@FieldDefaults(level = AccessLevel.PRIVATE)
 	public static class Base {
 
