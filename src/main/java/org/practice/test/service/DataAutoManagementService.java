@@ -75,8 +75,8 @@ public class DataAutoManagementService {
 	public void autoCreateDailyCpuUsage() {
 
 		List<CpuUsage> usageList = cpuUsageRepository.findByCreatedAtBetween(
-				LocalDate.now().atStartOfDay(),
-				LocalDate.now().atTime(23, 59, 59)
+				LocalDate.now().minusDays(1).atStartOfDay(),
+				LocalDate.now().minusDays(1).atTime(23, 59, 59)
 		);
 
 		DoubleSummaryStatistics stats = usageList.stream()
