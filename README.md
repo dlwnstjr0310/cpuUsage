@@ -14,7 +14,7 @@
 ### 프로젝트 구조 설명
 - 엔티티는 CpuUsage (분 단위), CpuUsageSummary (시, 일 단위) 두 가지만 사용합니다.
 - CpuUsage 엔티티는 id 와 usage 로 이루어져 있으며, 모든 엔티티는 제공 기한 설정을 위하여 BaseTimeEntity 를 상속받습니다.
-- 시/일 단위 데이터의 경우, 삭제 기간을 제외하면 모든 컬럼에 저장되어야하는 데이터가 동일하므로, 열거 타입을 이용해 구분 하도록 설정해두었습니다.
+- CpuUsageSummary 의 경우, 삭제 기간을 제외하면 모든 컬럼에 저장되어야하는 데이터가 동일하므로, 열거 타입을 이용해 구분 하도록 설정해두었습니다.
 - 단순한 조회만 이루어지는 API 는 CpuUsageController 에, 삽입과 삭제가 이루어지는 경우 DataAutoManagementController 에 있습니다.
 - 예외처리는 exception 패키지 내의 ExceptionHandler 가 담당하고 있으며, 자세한 정보를 제공하기 위하여 Error를 열거 타입으로 만들어 사용하고 있습니다.
 
