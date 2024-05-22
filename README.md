@@ -62,50 +62,60 @@
 ### CPU 사용량 조회 API
 <details>
   <summary>분 단위 사용량 조회</summary>
-  'yyyy-MM-ddTHH:mm:ss' 의 형태로 기간의 시작일과 종료일을 입력한 후 조회합니다. swagger 에서 다음과 같이 실행해보실 수 있습니다.
+  [GET] /cpu-usage/minute <br>
+  REQUEST : 'yyyy-MM-ddTHH:mm:ss' 의 형태인 startDateTime, endDateTime <br>
+  RESPONSE : { "code" : 200 , "message" : "조회 성공 " } , { "code" : 400 , "message" : "조회 기간을 초과했습니다." }
   
   ![image](https://github.com/dlwnstjr0310/cpuUsage/assets/126157268/52a37013-f5de-43d5-b074-6d4d18fd15af)
 
-  반환되는 데이터는 성공시 List<UsageResponse.Base> 의 형태로 되어있으며, 실패 시 HttpStatusCode, ErrorMessage 가 리턴됩니다.
-  전달값의 형식이 올바르지 않은 경우나 7일이 경과한 데이터를 조회한 경우 예외가 발생합니다.
 </details>
 <details>
   <summary>시간 단위 사용량 조회</summary>
-  'yyyy-MM-ddTHH:mm:ss' 의 형태로 기간의 시작일과 종료일을 입력한 후 조회합니다. swagger 에서 다음과 같이 실행해보실 수 있습니다.
+  [GET] /cpu-usage/hour <br>
+  REQUEST : 'yyyy-MM-ddTHH:mm:ss' 의 형태인 startDateTime, endDateTime <br>
+  RESPONSE : { "code" : 200 , "message" : "조회 성공 " } , { "code" : 400 , "message" : "조회 기간을 초과했습니다." }
 
 ![image](https://github.com/dlwnstjr0310/cpuUsage/assets/126157268/e5ef62b5-ad62-4b40-9df4-844af5a61de0)
 
-  반환되는 데이터는 성공시 List<UsageResponse.Target> 의 형태로 되어있으며, 실패 시 HttpStatusCode, ErrorMessage 가 리턴됩니다.
-  전달값의 형식이 올바르지 않은 경우나 3개월이 경과한 데이터를 조회한 경우 예외가 발생합니다.
 </details>
 <details>
   <summary>일 단위 사용량 조회</summary>
-  'yyyy-MM-dd' 의 형태로 기간의 시작일과 종료일을 입력한 후 조회합니다. swagger 에서 다음과 같이 실행해보실 수 있습니다.
+  [GET] /cpu-usage/day <br>
+  REQUEST : 'yyyy-MM-dd' 의 형태인 startDate, endDate <br>
+  RESPONSE : { "code" : 200 , "message" : "조회 성공 " } , { "code" : 400 , "message" : "조회 기간을 초과했습니다." }
+
 
   ![image](https://github.com/dlwnstjr0310/cpuUsage/assets/126157268/55cf949f-fa45-4253-b3ed-ebee90b7412d)
-
-  반환되는 데이터는 성공시 List<UsageResponse.Target> 의 형태로 되어있으며, 실패 시 HttpStatusCode, ErrorMessage 가 리턴됩니다.
-  전달값의 형식이 올바르지 않은 경우나 1년 이상 경과한 데이터를 조회한 경우 예외가 발생합니다.
 
 </details>
 
 ### CPU 사용량 저장 API
 <details>
   <summary>분 단위 사용량 저장</summary>
-  매 분마다 자동으로 실행되어, 현재 CPU 사용량을 DB 에 저장합니다.
-  swagger 에서 수동으로 실행하면 현재의 CPU 사용량을 DB 에 저장합니다.
+  매 분마다 자동으로 실행되어, 현재 CPU 사용량을 DB 에 저장합니다. <br>
+  swagger 에서 수동으로 실행하면 현재의 CPU 사용량을 DB 에 저장합니다.<br>
 
-  반환 데이터는 HttpsStatusCode : 200 , 실패 시 HttpStatusCode : 500 , ErrorMessage 가 리턴되며 로그가 저장됩니다.
+  [POST] /data-management/minute <br>
+  REQUEST : X
+  RESPONSE :  { "code" : 200 , "message" : "저장 성공 " } , { "code" : 500 , "message" : "CPU 사용량 저장중 예기치 않은 오류가 발생했습니다." }
 </details>
 <details>
   <summary>시간 단위 사용량 저장</summary>
-  매 시간마다 자동으로 실행되어, 해당 시간의 0분 ~ 59분 까지의 CPU 사용량의 최대/평균/최소값을 계산한 후 저장합니다.
-  swagger 에서 수동으로 실행하면 한시간 전의 0분 ~ 59분 까지의 CPU 사용량을 계산 후 저장합니다.
+  매 시간마다 자동으로 실행되어, 해당 시간의 0분 ~ 59분 까지의 CPU 사용량의 최대/평균/최소값을 계산한 후 저장합니다. <br>
+  swagger 에서 수동으로 실행하면 한시간 전의 0분 ~ 59분 까지의 CPU 사용량을 계산 후 저장합니다. <br>
+
+  [POST] /data-management/hourly <br>
+  REQUEST : X
+  RESPONSE :  { "code" : 200 , "message" : "저장 성공 " } 
 
 </details>
 <details>
   <summary>일 단위 사용량 저장</summary>
-  자정마다 자동으로 실행되어, 그날의 분 단위 CPU 사용량의 최대/평균/최소값을 계산한 후 저장합니다.
-  swagger 에서 수동으로 실행하면 어제의 분 단위 CPU 사용량을 계산 후 저장합니다.
-  
+  자정마다 자동으로 실행되어, 그날의 분 단위 CPU 사용량의 최대/평균/최소값을 계산한 후 저장합니다. <br>
+  swagger 에서 수동으로 실행하면 어제의 분 단위 CPU 사용량을 계산 후 저장합니다. <br>
+
+  [POST] /data-management/day <br>
+  REQUEST : X
+  RESPONSE :  { "code" : 200 , "message" : "저장 성공 " } 
+
 </details>
