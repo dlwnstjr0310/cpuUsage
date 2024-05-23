@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.practice.test.domain.common.Status;
 import org.practice.test.domain.entity.CpuUsage;
 import org.practice.test.domain.entity.CpuUsageSummary;
+import org.practice.test.exception.dataManagement.InvalidCpuUsageListSizeException;
 import org.practice.test.exception.dataManagement.UnexpectedDataException;
 import org.practice.test.repository.CpuUsageRepository;
 import org.practice.test.repository.CpuUsageSummaryRepository;
@@ -56,6 +57,10 @@ public class DataAutoManagementService {
 				LocalDateTime.now().withMinute(0).withSecond(0)
 		);
 
+		if (usageList.size() != 60) {
+			throw new InvalidCpuUsageListSizeException();
+		}
+
 		DoubleSummaryStatistics stats = usageList.stream()
 				.mapToDouble(CpuUsage::getUsage)
 				.summaryStatistics();
@@ -78,6 +83,10 @@ public class DataAutoManagementService {
 				LocalDate.now().minusDays(1).atStartOfDay(),
 				LocalDate.now().minusDays(1).atTime(23, 59, 59)
 		);
+
+		if (usageList.size() != 60) {
+			throw new InvalidCpuUsageListSizeException();
+		}
 
 		DoubleSummaryStatistics stats = usageList.stream()
 				.mapToDouble(CpuUsage::getUsage)
